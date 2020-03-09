@@ -1,0 +1,1026 @@
+<!DOCTYPE html>
+<html lang="en" >
+
+<head>
+    <title>ANPR System</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <link href="https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+    <style>
+    body{
+  background-color: #102c2e;
+
+}
+
+table td:hover img
+{
+    transform:scale(2.6);
+}
+
+.tab-content{
+  background-color: #32676b49;
+  color: #fff;
+}
+
+.nav-tabs .nav-link.active,.nav-tabs .nav-item.show .nav-link {
+
+    color: #f1f1f1;
+
+    background-color: #32676b49;
+
+    border-color: #2b5177;
+
+}
+.image{
+
+    margin-top: 25px;
+    margin-bottom: 15px;
+    margin-left: 400px;
+
+}
+
+.nav-tabs > li > a {
+  color: #3de8ee;
+}
+
+.table-hover tbody tr:hover td{
+  color: #eeff00;
+}
+
+.table-hover tbody tr td{
+  color: #fff;
+}
+
+
+#myImg {
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+
+  #myImg:hover {
+      transform: scale(3.0);
+    }
+
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    padding-top: 100px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.9);
+  }
+
+  .modal-content {
+    margin: auto;
+    display: block;
+    width: 80%;
+    max-width: 700px;
+  }
+
+
+  @keyframes zoom {
+    from {transform:scale(0)}
+    to {transform:scale(1)}
+  }
+
+
+  .close {
+    position: absolute;
+    top: 15px;
+    right: 35px;
+    color: #f1f1f1;
+    font-size: 40px;
+    font-weight: bold;
+    transition: 0.3s;
+  }
+
+  .close:hover,
+  .close:focus {
+    color: #bbb;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .bg-modal{
+    width: 100%;
+    height: 100%;
+    background-color:rgba(0,0,0,0.7);
+
+    position: absolute;
+    top: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    display: none;
+
+  }
+
+  .modal-content{
+    width: 500px;
+    height: 300px;
+    background-color: white;
+    border-radius: 4px;
+    text-align: center;
+    padding: 20px;
+    position: relative;
+
+  }
+  .modal-input{
+    width: 350px;
+    display: block;
+    margin:15px auto;
+  }
+
+  .close{
+    position: absolute;
+    top: 0;
+    right: 14px;
+    font-size: 42px;
+    transform: rotate(45deg);
+    cursor: pointer;
+  }
+  h5{
+    color: black;
+  }
+
+  .g-modal{
+    width: 100%;
+    height: 100%;
+    background-color:rgba(0,0,0,0.7);
+
+    position: absolute;
+    top: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    display: none;
+
+  }
+
+  .g-content{
+    width: 500px;
+    height: 300px;
+    background-color: white;
+    border-radius: 4px;
+    text-align: center;
+    padding: 20px;
+    position: relative;
+
+  }
+  .g-input{
+    width: 350px;
+    display: block;
+    margin:15px auto;
+  }
+
+  .g-close{
+    position: absolute;
+    top: 0;
+    right: 14px;
+    font-size: 42px;
+    transform: rotate(45deg);
+    cursor: pointer;
+  }
+  h5{
+    color: black;
+  }
+
+
+
+  @media only screen and (max-width: 700px){
+    .modal-content {
+      width: 100%;
+    }
+  }
+
+    </style>
+
+
+</head>
+
+<body id="body">
+    <br>
+    <div class="container mt-3" id="mainDiv">
+        <!-- Nav pills -->
+        <ul class="nav nav-tabs">
+        <li class="nav-item">
+                <a href="#home" id = "homeId" class="nav-link active" data-toggle="tab" >Register</a>
+            </li>
+            <li class="nav-item">
+                <a href="#Gate_1" id = "activeId" class="nav-link" data-toggle="tab" >Gate_1</a>
+            </li>
+            <li class="nav-item">
+                <a href="#Gate_2" id = "activeId" class="nav-link" data-toggle="tab" >Gate_2</a>
+            </li>
+            <li class="nav-item">
+                <a href="#Gate_3" id = "activeId" class="nav-link" data-toggle="tab" >Gate_3</a>
+            </li>
+            <li class="nav-item">
+                <a href="#Gate_4" id = "activeId" class="nav-link" data-toggle="tab" >Gate_4</a>
+            </li>
+
+            <li class="nav-item">
+                <a href="#active-page" id = "activeId" class="nav-link" data-toggle="tab" >Active</a>
+            </li>
+
+
+            <li class="nav-item">
+                <a href="#history-page" id = "historyId"class="nav-link" data-toggle="tab" >History</a>
+            </li>
+
+        </ul>
+
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <div id="home" class="container tab-pane active"><br>
+
+            <div style="float: right;">
+                        <button type="button" class="btn btn-danger btn-outline-*" onclick="window.location='./index.php'" id="logout">Logout</button><br>
+            </div><br>
+
+                <div class="container">
+
+                    <h2><strong>Vehicle Registration</strong></h2>
+
+                    <form action="vehicleReg.php" method="POST">
+                        <div class="form-group">
+                            <label for="fname"><strong>Name:</strong></label>
+                            <input type="text" class="form-control" id="fname" placeholder="Enter Fullname" name="fname" required>
+                        </div>
+                        <div class="form-group">
+                            <label><strong>ID Type:</strong></label>
+                            <select id="id-type" name="id-type" class="custom-select">
+                                    <option value="RC Number">RC Number</option>
+                                    <option value="DL Number">DL Number</option>
+                                    <option value="Others">Others</option>
+                                  </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="id-number"><strong>ID Number:</strong></label>
+                            <input type="text" class="form-control" id="id-number" placeholder="Enter ID Number" name="idNumber" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="Mobile"><strong>Mobile:</strong></label>
+                            <input type="text" class="form-control" id="mobile-no" placeholder="Enter Mobile Number" name="mobile" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="address"><strong>Address:</strong></label>
+                            <input type="text" class="form-control" id="addr" placeholder="Enter Your Address" name="addr" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="vehicle"><strong>Vehicle Reg No:</strong></label>
+                            <input type="text" class="form-control" id="vehicle-id" placeholder="Enter Vehicle Reg No" name="vehicle-reg" required>
+                        </div>
+                        <div style="float: right;" class="form-group">
+                            <button id="submit" type="submit" class="btn btn-primary btn-outline-*">Submit</button>
+                        </div>
+                    </form><br><br>
+                </div>
+            </div>
+            <div id="Gate_1" class="container tab-pane fade "><br>
+
+            <div class="container ">
+
+
+
+            <input type="text" class = "form-control"placeholder="Filter by keywords" name ="filter" id = "filter" style = "width:300px; float:left; margin-bottom:20px;"><br>
+             <div class="image">
+                    <img src="./image/image1.jpg" alt="Gate_1"width="400" height="300">
+                </div>
+
+                <table class="table table-hover table-dark" style="margin-bottom:20px; ">
+                    <thead>
+                        <tr>
+                            <th style="text-align:center">Name</th>
+                            <th style="text-align:center">Vehicle Reg No</th>
+                            <th style="text-align:center">OCR</th>
+                            <th style="text-align:center">Vehicle</th>
+                            <th style="text-align:center">Date</th>
+                            <th style="text-align:center">Timestamp</th>
+                            <th style="text-align:center">Authorization</th>
+                        </tr>
+
+                    </thead>
+                     <tbody>
+                            <tr>
+                              <td style="text-align:center">Mobin</td>
+                              <td style="text-align:center">201</td>
+                              <td style="text-align:center">jbbsnd</td>
+                             <td style="text-align:center"><img class="picc" src="./image/car5.jpg" alt="Gate_4"width="70" height="30"></td>
+                              <td style="text-align:center">20/2/2016</td>
+                              <td style="text-align:center">4.30pm</td>
+                              <td style="text-align:center"><button type="button" id="resident" class="btn btn-primary fresident">Resident</button> <button type="button" id="guest" class="btn btn-primary fguest">Guest</button></td>
+
+                            </tr>
+                            <tr>
+                              <td style="text-align:center">Hassan</td>
+                              <td style="text-align:center">201</td>
+                              <td style="text-align:center">jbbsnd</td>
+                             <td style="text-align:center"><img class="picc" src="./image/car1.jpg" alt="Gate_4"width="70" height="30"></td>
+                              <td style="text-align:center">20/2/2016</td>
+                              <td style="text-align:center">4.30pm</td>
+                              <td style="text-align:center">Resident(DB match)</td>
+
+
+                            </tr>
+                             <tr>
+                              <td style="text-align:center">mahedi</td>
+                              <td style="text-align:center">201</td>
+                              <td style="text-align:center">jbbsnd</td>
+                             <td style="text-align:center"><img class="picc" src="./image/car4.jpg" alt="Gate_4"width="70" height="30"></td>
+                              <td style="text-align:center">20/2/2016</td>
+                              <td style="text-align:center">4.30pm</td>
+                              <td style="text-align:center"><button type="button" id="resident" class="btn btn-primary fresident">Resident</button> <button type="button" id="guest" class="btn btn-primary fguest">Guest</button></td>
+
+                            </tr>
+                             <tr>
+                              <td style="text-align:center">atik</td>
+                              <td style="text-align:center">201</td>
+                              <td style="text-align:center">jbbsnd</td>
+                              <td style="text-align:center"><img class="picc" src="./image/car3.jpg" alt="Gate_4"width="70" height="30"></td>
+                              <td style="text-align:center">20/2/2016</td>
+                              <td style="text-align:center">4.30pm</td>
+                             <td style="text-align:center"><button type="button" id="resident" class="btn btn-primary fresident">Resident</button> <button type="button" id="guest" class="btn btn-primary fguest">Guest</button></td>
+
+
+                            </tr>
+                             <tr>
+                              <td style="text-align:center">bijoy</td>
+                              <td style="text-align:center">201</td>
+                              <td style="text-align:center">jbbsnd</td>
+                              <td style="text-align:center"><img class="picc" src="./image/car2.jpg" alt="Gate_4"width="70" height="30"></td>
+                              <td style="text-align:center">20/2/2016</td>
+                              <td style="text-align:center">4.30pm</td>
+                              <td style="text-align:center"><button type="button" id="resident" class="btn btn-primary fresident">Resident</button> <button type="button" id="guest" class="btn btn-primary fguest">Guest</button></td>
+
+                            </tr>
+                             <tr>
+                              <td style="text-align:center">bappi</td>
+                              <td style="text-align:center">201</td>
+                              <td style="text-align:center">jbbsnd</td>
+                             <td style="text-align:center"><img class="picc" src="./image/car1.jpg" alt="Gate_4"width="70" height="30"></td>
+                              <td style="text-align:center">20/2/2016</td>
+                              <td style="text-align:center">4.30pm</td>
+                             <td style="text-align:center"><button type="button" id="resident" class="btn btn-primary fresident">Resident</button> <button type="button" id="guest" class="btn btn-primary fguest">Guest</button></td>
+
+
+                            </tr>
+                          </tbody>
+                </table><br>
+            </div>
+            </div>
+
+            <div class="bg-modal">
+
+                <div class="modal-content">
+                    <div class="close">+</div>
+
+                    <h5 style="color: black;">OCR DO NOT MATCH WITH DB</h5>
+
+
+
+                    <form action="">
+
+                        <input class="modal-input" type="Text" placeholder="Please give your OCR">
+                        <input class="modal-input" type="Text" placeholder="Name">
+                        <input class="modal-input" type="Text" placeholder="Unit">
+                        <input class="modal-input" type="Text" placeholder="Last-Exit">
+                       <button type="button" class="btn btn-primary">submit</button>
+
+                    </form>
+
+                </div>
+
+
+            </div>
+
+            <div class="g-modal">
+
+                <div class="g-content">
+                    <div class="g-close" style="color: black;">+</div>
+
+                    <h5 style="color: black;">Guest Register</h5>
+
+
+
+                    <form action="">
+
+                        <input class="g-input" type="Text" placeholder="Vehicle_number">
+                        <input class="g-input" type="Text" placeholder="Name">
+                        <input class="g-input" type="Text" placeholder="Unit_number">
+                        <input class="g-input" type="Text" placeholder="Guest_id">
+                       <button type="button" class="btn btn-primary">submit</button>
+
+                    </form>
+
+                </div>
+
+
+            </div>
+
+            <div id="Gate_2" class="container tab-pane fade "><br>
+
+            <div class="container " style="padding-bottom: 10px;">
+
+
+
+            <input type="text" class = "form-control"placeholder="Filter by keywords" name ="filter" id = "filter" style = "width:300px; float:left; margin-bottom:20px;"><br>
+             <div class="image">
+                    <img src="./image/image2.jpg" alt="Gate_4"width="400" height="300">
+                </div>
+
+              <table class="table table-hover table-dark" style="margin-bottom:20px;">
+          <thead>
+              <tr>
+                   <th >Name</th>
+                    <th style="text-align:center">Vehicle Reg No</th>
+                    <th style="text-align:center">OCR</th>
+                    <th style="text-align:center">Vehicle</th>
+                    <th style="text-align:center">Date</th>
+                    <th style="text-align:center">Timestamp</th>
+                    <th style="text-align:center">Authorization</th>
+               </tr>
+             </thead>
+                       <tbody>
+                            <tr>
+                              <td style="text-align:center">Mobin</td>
+                              <td style="text-align:center">201</td>
+                              <td style="text-align:center">jbbsnd</td>
+                             <td style="text-align:center"><img src="./image/car1.jpg" alt="Gate_4"width="70" height="30"></td>
+                              <td style="text-align:center">20/2/2016</td>
+                              <td style="text-align:center">4.30pm</td>
+                               <td style="text-align:center"><button type="button" id="resident" class="btn btn-primary fresident">Resident</button> <button type="button" id="guest" class="btn btn-primary fguest">Guest</button></td>
+
+                            </tr>
+                            <tr>
+                              <td style="text-align:center">Hassan</td>
+                              <td style="text-align:center">201</td>
+                              <td style="text-align:center">jbbsnd</td>
+                             <td style="text-align:center"><img src="./image/car5.jpg" alt="Gate_4"width="70" height="30"></td>
+                              <td style="text-align:center">20/2/2016</td>
+                              <td style="text-align:center">4.30pm</td>
+                              <td style="text-align:center">Resident(DB match)</td>
+
+                            </tr>
+                             <tr>
+                              <td style="text-align:center">mahedi</td>
+                              <td style="text-align:center">201</td>
+                              <td style="text-align:center">jbbsnd</td>
+                              <td style="text-align:center"><img src="./image/car4.jpg" alt="Gate_4"width="70" height="30"></td>
+                              <td style="text-align:center">20/2/2016</td>
+                              <td style="text-align:center">4.30pm</td>
+                               <td style="text-align:center">Resident(DB match)</td>
+
+                            </tr>
+                             <tr>
+                              <td style="text-align:center">atik</td>
+                              <td style="text-align:center">201</td>
+                              <td style="text-align:center">jbbsnd</td>
+                             <td style="text-align:center"><img src="./image/car3.jpg" alt="Gate_4"width="70" height="30"></td>
+                              <td style="text-align:center">20/2/2016</td>
+                              <td style="text-align:center">4.30pm</td>
+                              <td style="text-align:center"><button type="button" id="resident" class="btn btn-primary fresident">Resident</button> <button type="button" id="guest" class="btn btn-primary fguest">Guest</button></td>
+
+                            </tr>
+                             <tr>
+                              <td style="text-align:center">bijoy</td>
+                              <td style="text-align:center">201</td>
+                              <td style="text-align:center">jbbsnd</td>
+                              <td style="text-align:center"><img src="./image/car2.jpg" alt="Gate_4"width="70" height="30"></td>
+                              <td style="text-align:center">20/2/2016</td>
+                              <td style="text-align:center">4.30pm</td>
+                              <td style="text-align:center"><button type="button" id="resident" class="btn btn-primary fresident">Resident</button> <button type="button" id="guest" class="btn btn-primary fguest">Guest</button></td>
+
+                            </tr>
+                             <tr>
+                              <td style="text-align:center">bappi</td>
+                              <td style="text-align:center">201</td>
+                              <td style="text-align:center">jbbsnd</td>
+                              <td style="text-align:center"><img src="./image/car1.jpg" alt="Gate_4"width="70" height="30"></td>
+                              <td style="text-align:center">20/2/2016</td>
+                              <td style="text-align:center">4.30pm</td>
+                               <td style="text-align:center"><button type="button" id="resident" class="btn btn-primary fresident">Resident</button> <button type="button" id="guest" class="btn btn-primary fguest">Guest</button></td>
+
+                            </tr>
+                          </tbody>
+                        </table>
+            </div>
+            </div>
+            <div id="Gate_3" class="container tab-pane fade "><br>
+
+            <div class="container " style="padding-bottom: 10px;">
+
+
+
+            <input type="text" class = "form-control"placeholder="Filter by keywords" name ="filter" id = "filter" style = "width:300px; float:left; margin-bottom:20px;"><br>
+             <div class="image">
+                    <img src="./image/image3.jpg" alt="Gate_3"width="400" height="300">
+                </div>
+
+              <table class="table table-hover table-dark" style="margin-bottom:20px;">
+          <thead>
+              <tr>
+                   <th >Name</th>
+                    <th style="text-align:center">Vehicle Reg No</th>
+                    <th style="text-align:center">OCR</th>
+                    <th style="text-align:center">Vehicle</th>
+                    <th style="text-align:center">Date</th>
+                    <th style="text-align:center">Timestamp</th>
+                    <th style="text-align:center">Authorization</th>
+               </tr>
+             </thead>
+                       <tbody>
+                            <tr>
+                              <td style="text-align:center">Mobin</td>
+                              <td style="text-align:center">201</td>
+                              <td style="text-align:center">jbbsnd</td>
+                              <td style="text-align:center"><img src="./image/car1.jpg" alt="Gate_4"width="70" height="30"></td>
+                              <td style="text-align:center">20/2/2016</td>
+                              <td style="text-align:center">4.30pm</td>
+                               <td style="text-align:center"><button type="button" id="resident" class="btn btn-primary fresident">Resident</button> <button type="button" id="guest" class="btn btn-primary fguest">Guest</button></td>
+
+
+                            </tr>
+                            <tr>
+                              <td style="text-align:center">Hassan</td>
+                              <td style="text-align:center">201</td>
+                              <td style="text-align:center">jbbsnd</td>
+                             <td style="text-align:center"><img src="./image/car5.jpg" alt="Gate_4"width="70" height="30"></td>
+                              <td style="text-align:center">20/2/2016</td>
+                              <td style="text-align:center">4.30pm</td>
+                               <td style="text-align:center"><button type="button" id="resident" class="btn btn-primary fresident">Resident</button> <button type="button" id="guest" class="btn btn-primary fguest">Guest</button></td>
+
+
+                            </tr>
+                             <tr>
+                              <td style="text-align:center">mahedi</td>
+                              <td style="text-align:center">201</td>
+                              <td style="text-align:center">jbbsnd</td>
+                             <td style="text-align:center"><img src="./image/car1.jpg" alt="Gate_4"width="70" height="30"></td>
+                              <td style="text-align:center">20/2/2016</td>
+                              <td style="text-align:center">4.30pm</td>
+                              <td style="text-align:center">Resident(DB match)</td>
+
+
+                            </tr>
+                             <tr>
+                              <td style="text-align:center">atik</td>
+                              <td style="text-align:center">201</td>
+                              <td style="text-align:center">jbbsnd</td>
+                             <td style="text-align:center"><img src="./image/car5.jpg" alt="Gate_4"width="70" height="30"></td>
+                              <td style="text-align:center">20/2/2016</td>
+                              <td style="text-align:center">4.30pm</td>
+                               <td style="text-align:center">Resident(DB match)</td>
+
+
+                            </tr>
+                             <tr>
+                              <td style="text-align:center">bijoy</td>
+                              <td style="text-align:center">201</td>
+                              <td style="text-align:center">jbbsnd</td>
+                              <td style="text-align:center"><img src="./image/car4.jpg" alt="Gate_4"width="70" height="30"></td>
+                              <td style="text-align:center">20/2/2016</td>
+                              <td style="text-align:center">4.30pm</td>
+                               <td style="text-align:center"><button type="button" id="resident" class="btn btn-primary fresident">Resident</button> <button type="button" id="guest" class="btn btn-primary fguest">Guest</button></td>
+
+
+                            </tr>
+                             <tr>
+                              <td style="text-align:center">bappi</td>
+                              <td style="text-align:center">201</td>
+                              <td style="text-align:center">jbbsnd</td>
+                              <td style="text-align:center"><img src="./image/car1.jpg" alt="Gate_4"width="70" height="30"></td>
+                              <td style="text-align:center">20/2/2016</td>
+                              <td style="text-align:center">4.30pm</td>
+                               <td style="text-align:center"><button type="button" id="resident" class="btn btn-primary fresident">Resident</button> <button type="button" id="guest" class="btn btn-primary fguest">Guest</button></td>
+
+                            </tr>
+                          </tbody>
+                        </table>
+            </div>
+            </div>
+
+            <div id="Gate_4" class="container tab-pane fade "><br>
+
+            <div class="container " style="padding-bottom: 10px;">
+
+
+
+            <input type="text" class = "form-control"placeholder="Filter by keywords" name ="filter" id = "filter" style = "width:300px; float:left; margin-bottom:20px;"><br>
+             <div class="image">
+                    <img src="./image/image4.jpg" alt="Gate_4"width="400" height="300">
+                </div>
+
+              <table class="table table-hover table-dark" style="margin-bottom:20px;">
+          <thead>
+              <tr>
+                   <th >Name</th>
+                    <th style="text-align:center">Vehicle Reg No</th>
+                    <th style="text-align:center">OCR</th>
+                    <th style="text-align:center">Vehicle</th>
+                    <th style="text-align:center">Date</th>
+                    <th style="text-align:center">Timestamp</th>
+                    <th style="text-align:center">Authorization</th>
+               </tr>
+             </thead>
+                       <tbody>
+                            <tr>
+                              <td style="text-align:center">Mobin</td>
+                              <td style="text-align:center">201</td>
+                              <td style="text-align:center">jbbsnd</td>
+                              <td style="text-align:center"><img src="./image/car5.jpg" alt="Gate_4"width="70" height="30"></td>
+                              <td style="text-align:center">20/2/2016</td>
+                              <td style="text-align:center">4.30pm</td>
+                               <td style="text-align:center"><button type="button" id="resident" class="btn btn-primary fresident">Resident</button> <button type="button" id="guest" class="btn btn-primary fguest">Guest</button></td>
+
+                            </tr>
+                            <tr>
+                              <td style="text-align:center">Hassan</td>
+                              <td style="text-align:center">201</td>
+                              <td style="text-align:center">jbbsnd</td>
+                              <td style="text-align:center"><img src="./image/car4.jpg" alt="Gate_4"width="70" height="30"></td>
+                              <td style="text-align:center">20/2/2016</td>
+                              <td style="text-align:center">4.30pm</td>
+                               <td style="text-align:center">Resident(DB Match)</td>
+
+
+                            </tr>
+                             <tr>
+                              <td style="text-align:center">mahedi</td>
+                              <td style="text-align:center">201</td>
+                              <td style="text-align:center">jbbsnd</td>
+                              <td style="text-align:center"><img src="./image/car4.jpg" alt="Gate_4"width="70" height="30"></td>
+                              <td style="text-align:center">20/2/2016</td>
+                              <td style="text-align:center">4.30pm</td>
+                              <td style="text-align:center"><button type="button" id="resident" class="btn btn-primary fresident">Resident</button> <button type="button" id="guest" class="btn btn-primary fguest">Guest</button></td>
+
+
+                            </tr>
+                             <tr>
+                              <td style="text-align:center">atik</td>
+                              <td style="text-align:center">201</td>
+                              <td style="text-align:center">jbbsnd</td>
+                             <td style="text-align:center"><img src="./image/car3.jpg" alt="Gate_4"width="70" height="30"></td>
+                              <td style="text-align:center">20/2/2016</td>
+                              <td style="text-align:center">4.30pm</td>
+                              <td style="text-align:center"><button type="button" id="resident" class="btn btn-primary fresident">Resident</button> <button type="button" id="guest" class="btn btn-primary fguest">Guest</button></td>
+
+
+                            </tr>
+                             <tr>
+                              <td style="text-align:center">bijoy</td>
+                              <td style="text-align:center">201</td>
+                              <td style="text-align:center">jbbsnd</td>
+                             <td style="text-align:center"><img src="./image/car2.jpg" alt="Gate_4"width="70" height="30"></td>
+                              <td style="text-align:center">20/2/2016</td>
+                              <td style="text-align:center">4.30pm</td>
+                               <td style="text-align:center"><button type="button" id="resident" class="btn btn-primary fresident">Resident</button> <button type="button" id="guest" class="btn btn-primary fguest">Guest</button></td>
+
+
+                            </tr>
+                             <tr>
+                              <td style="text-align:center">bappi</td>
+                              <td style="text-align:center">201</td>
+                              <td style="text-align:center">jbbsnd</td>
+                             <td style="text-align:center"><img src="./image/car1.jpg" alt="Gate_4"width="70" height="30"></td>
+                              <td style="text-align:center">20/2/2016</td>
+                              <td style="text-align:center">4.30pm</td>
+                               <td style="text-align:center"><button type="button" id="resident" class="btn btn-primary fresident">Resident</button> <button type="button" id="guest" class="btn btn-primary fguest">Guest</button></td>
+
+                            </tr>
+                          </tbody>
+                        </table>
+                  </div>
+              </div>
+
+
+
+            <div id="active-page" class="container tab-pane fade "><br>
+
+            <div class="container " style="padding-bottom: 10px;">
+
+
+
+            <input type="text" class = "form-control"placeholder="Filter by keywords" name ="filter" id = "filter" style = "width:300px; float:left; margin-bottom:20px;"><br>
+
+
+              <table class="table table-hover table-dark" style="margin-bottom:20px;">
+          <thead>
+              <tr>
+                   <th >Name</th>
+                    <th style="text-align:center">Vehicle Reg No</th>
+                    <th style="text-align:center">OCR</th>
+                    <th style="text-align:center">Vehicle</th>
+                    <th style="text-align:center">Date</th>
+                    <th style="text-align:center">Timestamp</th>
+                    <th style="text-align:center">Gate_pic</th>
+                    <th style="text-align:center">Authorization</th>
+               </tr>
+             </thead>
+                       <tbody>
+                            <tr>
+                              <td style="text-align:center">Mobin</td>
+                              <td style="text-align:center">201</td>
+                              <td style="text-align:center">jbbsnd</td>
+                              <td style="text-align:center"><img src="./image/car1.jpg" alt="Gate_4"width="70" height="30"></td>
+                              <td style="text-align:center">20/2/2016</td>
+                              <td style="text-align:center">4.30pm</td>
+                               <td style="text-align:center"> <img src="./image/image2.jpg" alt="Gate_4"width="70" height="30"></td>
+                               <td style="text-align:center">Guest</td>
+
+                            </tr>
+                            <tr>
+                              <td style="text-align:center">Hassan</td>
+                              <td style="text-align:center">201</td>
+                              <td style="text-align:center">jbbsnd</td>
+                             <td style="text-align:center"><img src="./image/car2.jpg" alt="Gate_4"width="70" height="30"></td>
+                              <td style="text-align:center">20/2/2016</td>
+                              <td style="text-align:center">4.30pm</td>
+                              <td style="text-align:center"><img src="./image/image1.jpg" alt="Gate_4"width="70" height="30"></td>
+                               <td style="text-align:center">Resident(DB Match)</td>
+
+
+                            </tr>
+                             <tr>
+                              <td style="text-align:center">mahedi</td>
+                              <td style="text-align:center">201</td>
+                              <td style="text-align:center">jbbsnd</td>
+                              <td style="text-align:center"><img src="./image/car3.jpg" alt="Gate_4"width="70" height="30"></td>
+                              <td style="text-align:center">20/2/2016</td>
+                              <td style="text-align:center">4.30pm</td>
+                              <td style="text-align:center"><img src="./image/image3.jpg" alt="Gate_4"width="70" height="30"></td>
+                              <td style="text-align:center">Resident(DB Match)</td>
+
+
+                            </tr>
+                             <tr>
+                              <td style="text-align:center">atik</td>
+                              <td style="text-align:center">201</td>
+                              <td style="text-align:center">jbbsnd</td>
+                              <td style="text-align:center"><img src="./image/car4.jpg" alt="Gate_4"width="70" height="30"></td>
+                              <td style="text-align:center">20/2/2016</td>
+                              <td style="text-align:center">4.30pm</td>
+                              <td style="text-align:center"><img src="./image/image2.jpg" alt="Gate_4"width="70" height="30"></td>
+                              <td style="text-align:center">Resident(DB Match)</td>
+
+
+                            </tr>
+                             <tr>
+                              <td style="text-align:center">bijoy</td>
+                              <td style="text-align:center">201</td>
+                              <td style="text-align:center">jbbsnd</td>
+                             <td style="text-align:center"><img src="./image/car5.jpg" alt="Gate_4"width="70" height="30"></td>
+                              <td style="text-align:center">20/2/2016</td>
+                              <td style="text-align:center">4.30pm</td>
+                              <td style="text-align:center"><img src="./image/image2.jpg" alt="Gate_4"width="70" height="30"></td>
+                               <td style="text-align:center">Guest</td>
+
+
+                            </tr>
+                             <tr>
+                              <td style="text-align:center">bappi</td>
+                              <td style="text-align:center">201</td>
+                              <td style="text-align:center">jbbsnd</td>
+                              <td style="text-align:center"><img src="./image/car1.jpg" alt="Gate_4"width="70" height="30"></td>
+                              <td style="text-align:center">20/2/2016</td>
+                              <td style="text-align:center">4.30pm</td>
+                              <td style="text-align:center"><img src="./image/image4.jpg" alt="Gate_4"width="70" height="30"></td>
+                               <td style="text-align:center">Guest</td>
+
+                            </tr>
+
+                            <tr>
+                              <td style="text-align:center">atik</td>
+                              <td style="text-align:center">201</td>
+                              <td style="text-align:center">jbbsnd</td>
+                              <td style="text-align:center"><img src="./image/car4.jpg" alt="Gate_4"width="70" height="30"></td>
+                               <td style="text-align:center">20/2/2016</td>
+                              <td style="text-align:center">4.30pm</td>
+                              <td style="text-align:center"><img src="./image/image2.jpg" alt="Gate_4"width="70" height="30"></td>
+                              <td style="text-align:center">Resident(DB Match)</td>
+
+
+                            </tr>
+                            <tr>
+                              <td style="text-align:center">atik</td>
+                              <td style="text-align:center">201</td>
+                              <td style="text-align:center">jbbsnd</td>
+                              <td style="text-align:center"><img src="./image/car3.jpg" alt="Gate_4"width="70" height="30"></td>
+                              <td style="text-align:center">20/2/2016</td>
+                              <td style="text-align:center">4.30pm</td>
+                              <td style="text-align:center"><img src="./image/image2.jpg" alt="Gate_4"width="70" height="30"></td>
+                              <td style="text-align:center">Resident(DB Match)</td>
+
+
+                            </tr>
+                             <tr>
+                              <td style="text-align:center">bappi</td>
+                              <td style="text-align:center">201</td>
+                              <td style="text-align:center">jbbsnd</td>
+                              <td style="text-align:center"><img src="./image/car2.jpg" alt="Gate_4"width="70" height="30"></td>
+                              <td style="text-align:center">20/2/2016</td>
+                              <td style="text-align:center">4.30pm</td>
+                               <td style="text-align:center"><img src="./image/image4.jpg" alt="Gate_4"width="70" height="30"></td>
+                               <td style="text-align:center">Guest</td>
+
+                            </tr>
+                             <tr>
+                              <td style="text-align:center">bappi</td>
+                              <td style="text-align:center">201</td>
+                              <td style="text-align:center">jbbsnd</td>
+                              <td style="text-align:center"><img src="./image/car2.jpg" alt="Gate_4"width="70" height="30"></td>
+                              <td style="text-align:center">20/2/2016</td>
+                              <td style="text-align:center">4.30pm</td>
+                              <td style="text-align:center"><img src="./image/image4.jpg" alt="Gate_4"width="70" height="30"></td>
+                               <td style="text-align:center">Guest</td>
+
+                            </tr>
+                          </tbody>
+                        </table>
+                  </div>
+              </div>
+
+
+
+
+
+            <div id="history-page" class="container tab-pane fade">
+                <div class="container "> <br>
+
+
+            <form id="myForm" method="post">
+                    <div class="form-group">
+                        <label for="Start"><strong>Start Date:</strong></label>
+                        <input type="text" class="form-control"  id = "datepicker-12" placeholder = "Start date" name="start"><br>
+                        <label for="End"><strong>End Date:</strong></label>
+                        <input type="text" class="form-control" placeholder = "End date" id="datepicker-13"  name="end"><br>
+                    </div>
+               </form>
+                    <button class="btn btn-primary btn-outline-* " id = "searchBtn" >Search</button>
+
+                 </div><br>
+                 <div class="container ">
+                <input type="text" class = "form-control"placeholder="Filter by keywords" name ="search" id = "search" style = "width:auto">
+                 </div><br>
+
+                <div id = "filtered" class="container "></div>
+            </div>
+        </div>
+    </div>
+<div id="picModal" class="modal">
+
+  <!-- The Close Button -->
+  <span class="close">&times;</span>
+
+  <!-- Modal Content (The Image) -->
+  <img class="modal-content" id="img01">
+
+
+</div>
+
+</body>
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+</html>
+<script>
+
+
+
+$(document).ready(function () {
+
+    function myStopFunction() {
+        clearInterval(myVar);
+    }
+
+    var myVar =  setInterval(function(){
+        $("#activeFilter").load("search.php").fadeIn("slow");
+    }, 3000);
+
+
+
+
+    $('#searchBtn').click(function() {
+    var start = $("#datepicker-12").val();
+    var end = $("#datepicker-13").val();
+
+    $.post("connect.php", { start: start, end: end },
+    function(data) {
+     $('#filtered').html(data);
+     $('#myForm')[0].reset();
+    });
+    });
+
+
+        $('input[id$=datepicker-13]').datepicker({dateFormat: 'yy/mm/dd'});
+        $('input[id$=datepicker-12]').datepicker({dateFormat: 'yy/mm/dd'});
+
+        $('#search').keyup(function(){
+            search_table($(this).val(), $('#filtered tr'));
+
+        });
+
+        $('#filter').keyup(function(){
+            search_table($(this).val(), $('#activeFilter tr'));
+            if($(this).val().length > 0){
+                 myStopFunction();
+            }else{
+                myVar =  setInterval(function(){
+                $("#activeFilter").load("search.php").fadeIn("slow");
+                },3000);
+            }
+
+        });
+
+
+
+        function search_table(value, id ){
+
+        id.each(function(){
+            var found = 'false';
+            $(this).each(function()
+            {
+                if($(this).text().toLowerCase().indexOf(value.trim().toLowerCase()) >= 0){
+                    found = 'true';
+                }
+            });
+
+            if(found == 'true')
+            {
+                $(this).show();
+            }
+            else
+            {
+                $(this).hide();
+            }
+        });
+    }
+
+
+
+    });
+
+
+    var modal = document.getElementById("picModal");
+
+    var modalImg = document.getElementById("img01");
+
+
+    function zoomFunction(value){
+    modal.style.display = "block";
+    modalImg.src = value;
+    }
+
+
+    var span = document.getElementsByClassName("close")[0];
+
+    span.onclick = function() {
+    modal.style.display = "none";
+    }
+var buttons = document.getElementsByClassName('fresident');
+
+for(var i=0; i< buttons.length; i++){
+    buttons[i].addEventListener('click',function(){
+    document.querySelector('.bg-modal').style.display='flex';
+});
+}
+// document.querySelector('.fresident').addEventListener('click',function(){
+//     document.querySelector('.bg-modal').style.display='flex';
+// });
+
+document.querySelector('.close').addEventListener('click',function(){
+    document.querySelector('.bg-modal').style.display='none';
+});
+
+
+var buttonss = document.getElementsByClassName('fguest');
+
+for(var i=0; i< buttonss.length; i++){
+    buttonss[i].addEventListener('click',function(){
+    document.querySelector('.g-modal').style.display='flex';
+});
+}
+
+// document.getElementById('guest').addEventListener('click',function(){
+//     document.querySelector('.g-modal').style.display='flex';
+// });
+
+document.querySelector('.g-close').addEventListener('click',function(){
+    document.querySelector('.g-modal').style.display='none';
+});
+</script>
